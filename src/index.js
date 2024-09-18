@@ -70,7 +70,7 @@ async function isDomainkeyValid(domain, key) {
   }
 }
 
-async function handleCorsRoute(request, env) {
+async function handleCorsRoute(req, env) {
   const url = new URL(req.url);
   const params = new URLSearchParams(url.search);
 
