@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/adobe/rum-proxy/compare/v1.1.1...v1.2.0) (2024-09-18)
+
+
+### Features
+
+* **index:** better error messages ([2cd5dfe](https://github.com/adobe/rum-proxy/commit/2cd5dfea8adcba7e54425e0c2c803568ccf872ab))
+
 ## [1.1.1](https://github.com/adobe/rum-proxy/compare/v1.1.0...v1.1.1) (2024-09-18)
 
 
