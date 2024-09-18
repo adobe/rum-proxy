@@ -1,0 +1,35 @@
+name = "rum-proxy-dev"
+main = "dist/index.mjs"
+compatibility_date = "2024-03-21"
+account_id = "852dfa4ae1b0d579df29be65b986c101"
+workers_dev = true
+send_metrics = false
+
+build = { command = "npm install && node build.js" }
+
+[vars]
+VERSION = "@@VERSION@@-dev"
+ENVIRONMENT = "dev"
+
+# ----------------------------------------------------------------------
+# ci environment
+
+[env.ci]
+name = "rum-proxy-ci"
+
+[env.ci.vars]
+VERSION = "@@VERSION@@-ci"
+ENVIRONMENT = "ci"
+
+# ----------------------------------------------------------------------
+# production environment
+
+[env.production]
+name = "rum-proxy-prod"
+
+[env.production.vars]
+VERSION = "@@VERSION@@"
+ENVIRONMENT = "prod"
+
+# [secrets]
+# 

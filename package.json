@@ -7,12 +7,20 @@
   "type": "module",
   "scripts": {
     "prepare": "husky",
-    "deploy": "hedy --build --verbose --deploy --cloudflare-email $HLX_CLOUDFLARE_EMAIL --cloudflare-account-id $HLX_CLOUDFLARE_ACCOUNT --cloudflare-auth $HLX_CLOUDFLARE_AUTH --name ${HLX_CLOUDFLARE_NAME:-rum-proxy-prod}",
+    "build": "node build.js",
+    "lint": "eslint . --ext js,cjs,mjs",
     "test": "c8 mocha -i -g 'Post-Deploy' --spec test/*.test.js",
-    "pretest": "node tools/spider-list.js",
+    "dev": "if test -e .dev.vars; then wrangler dev --; else echo \"Need a .dev.vars files before starting local dev server\"; fi",
+    "dev:remote": "wrangler dev --remote",
     "test-postdeploy": "mocha --spec test/post-deploy.test.js",
-    "lint": "eslint .",
-    "semantic-release": "semantic-release"
+    "deploy:dev": "node prepare-deploy.js && wrangler deploy -c wrangler-versioned.toml",
+    "deploy:ci": "node prepare-deploy.js && wrangler deploy -e ci  -c wrangler-versioned.toml",
+    "deploy:production": "node prepare-deploy.js && wrangler deploy -e production -c wrangler-versioned.toml",
+    "log": "wrangler tail --format pretty",
+    "log:ci": "wrangler tail --format pretty -e ci",
+    "log:production": "wrangler tail --format pretty -e production",
+    "semantic-release": "semantic-release",
+    "semantic-release-dry": "semantic-release --dry-run --no-ci --branches $CI_BRANCH"
   },
   "author": "",
   "repository": {
@@ -34,8 +42,6 @@
   "devDependencies": {
     "@adobe/eslint-config-helix": "2.0.6",
     "@adobe/fetch": "4.1.8",
-    "@adobe/helix-deploy": "12.1.3",
-    "@adobe/helix-deploy-plugin-edge": "1.0.5",
     "@cloudflare/workers-types": "4.20240806.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/exec": "6.0.3",
