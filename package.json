@@ -42,23 +42,23 @@
   "devDependencies": {
     "@adobe/eslint-config-helix": "2.0.7",
     "@adobe/fetch": "4.1.8",
-    "@cloudflare/workers-types": "4.20240806.0",
+    "@cloudflare/workers-types": "4.20240909.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
     "c8": "10.1.2",
     "dotenv": "16.4.5",
-    "esbuild": "0.23.0",
-    "eslint": "8.57.0",
+    "esbuild": "0.23.1",
+    "eslint": "8.57.1",
     "eslint-plugin-header": "3.1.1",
-    "eslint-plugin-import": "2.29.1",
-    "husky": "9.1.4",
-    "lint-staged": "15.2.9",
+    "eslint-plugin-import": "2.30.0",
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
     "mocha": "10.7.3",
     "mocha-multi-reporters": "1.5.1",
-    "nock": "13.5.4",
-    "semantic-release": "24.0.0",
-    "wrangler": "3.71.0"
+    "nock": "13.5.5",
+    "semantic-release": "24.1.1",
+    "wrangler": "3.78.4"
   },
   "wsk": {
     "target": [
