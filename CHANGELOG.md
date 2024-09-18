@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/adobe/rum-proxy/compare/v1.2.0...v1.2.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* **cors:** await the fetch ([f587c68](https://github.com/adobe/rum-proxy/commit/f587c6836f062f420cacb52d4c7cf1cc4104bfac))
+
 # [1.2.0](https://github.com/adobe/rum-proxy/compare/v1.1.1...v1.2.0) (2024-09-18)
 
 
