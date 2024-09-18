@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/adobe/rum-proxy/compare/v1.1.0...v1.1.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* **cors:** use req ([0fe350e](https://github.com/adobe/rum-proxy/commit/0fe350e0018a8f9a6b5d1b81ae0d0376d099cf96))
+
 # [1.1.0](https://github.com/adobe/rum-proxy/compare/v1.0.0...v1.1.0) (2024-09-18)
 
 
