@@ -48,7 +48,7 @@ function getPsiUrl(url, env) {
  */
 async function isDomainkeyValid(domain, key) {
   if (!domain || !key) {
-    throw new Error('invalid domain or key');
+    throw new Error('missing domain or key');
   }
   try {
     const beurl = new URL(`https://rum.fastly-aem.page/domains/${domain}`);
@@ -62,11 +62,11 @@ async function isDomainkeyValid(domain, key) {
       },
     });
     if (!beresp.ok) {
-      throw new Error('invalid domain or key');
+      throw new Error('unable to fetch from RUM Bundler API: ' + beresp.statusText);
     }
     return true;
   } catch (e) {
-    throw new Error('invalid domain or key', e);
+    throw new Error('other error validating domain key: ' + e.message);
   }
 }
 
@@ -92,7 +92,7 @@ async function handleCorsRoute(req, env) {
       return new Response('', {
         status: 404,
         headers: {
-          'x-error': 'not found',
+          'x-error': 'not found: ' + beresp.statusText,
         },
       });
     }
