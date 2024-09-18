@@ -1,6 +1,6 @@
 {
   "name": "rum-proxy",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "description": "RUM Explorer proxy for og images & more",
   "main": "src/index.js",
