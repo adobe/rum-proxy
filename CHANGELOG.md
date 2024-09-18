@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/adobe/rum-proxy/compare/v1.2.1...v1.2.2) (2024-09-18)
+
+
+### Bug Fixes
+
+* **index:** better boolean logic ([589f6d0](https://github.com/adobe/rum-proxy/commit/589f6d068d24475660af00f54f6a5582c77bfa72))
+
 ## [1.2.1](https://github.com/adobe/rum-proxy/compare/v1.2.0...v1.2.1) (2024-09-18)
 
 
