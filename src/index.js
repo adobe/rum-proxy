@@ -41,6 +41,85 @@ function getPsiUrl(url, env) {
 }
 
 /**
+ * Validates a domainkey against the RUM Bundler API
+ * @param {string} domain the domain, e.g. "www.example.com"
+ * @param {string} key the domainkey to validate
+ * @returns {Promise<boolean>} true if the domainkey is valid, exception otherwise
+ */
+async function isDomainkeyValid(domain, key) {
+  if (!domain || !key) {
+    throw new Error('invalid domain or key');
+  }
+  try {
+    const beurl = new URL(`https://rum.fastly-aem.page/domains/${domain}`);
+    beurl.searchParams.set('domainkey', key);
+
+    const beresp = fetch(beurl, {
+      cf: {
+        // keep the auth in cache for 10 minutes
+        cacheTtl: 600,
+        cacheEverything: true,
+      },
+    });
+    if (!beresp.ok) {
+      throw new Error('invalid domain or key');
+    }
+    return true;
+  } catch (e) {
+    throw new Error('invalid domain or key', e);
+  }
+}
+
+async function handleCorsRoute(request, env) {
+  const url = new URL(req.url);
+  const params = new URLSearchParams(url.search);
+
+  const beurl = new URL(params.get('url'));
+  const domainkey = params.get('domainkey');
+
+  try {
+    await isDomainkeyValid(beurl.hostname, domainkey);
+    const beresp = await fetch(beurl, {
+      cf: {
+        cacheTtl: 3600,
+        cacheEverything: true,
+      },
+    });
+    // if not ok, or response is neither HTML or JSON, return 404
+    if (!beresp.ok
+      || !beresp.headers.get('content-type').includes('html')
+      || !beresp.headers.get('content-type').includes('json')) {
+      return new Response('', {
+        status: 404,
+        headers: {
+          'x-error': 'not found',
+        },
+      });
+    }
+    const headers = new Headers(beresp.headers);
+    headers.set('access-control-allow-origin', '*');
+    headers.set('access-control-allow-credentials', 'true');
+    headers.set('access-control-allow-headers', 'Content-Type');
+    headers.set('access-control-allow-methods', 'GET, POST, OPTIONS');
+    headers.set('access-control-max-age', '86400');
+
+    // allow CORS
+    return new Response(beresp.body, {
+      status: 200,
+      headers
+    });
+  } catch (e) {
+    // return 503
+    return new Response('', {
+      status: 503,
+      headers: {
+        'x-error': e.message,
+      },
+    });
+  }
+}
+
+/**
 * Check if image exists and is not pending/failed
 * @param {string} key
 * @param {Env} env
@@ -322,6 +401,10 @@ const handleRequest = async (request, env, ctx) => {
 
   if (url.pathname.startsWith('/tools/rum/_ogimage')) {
     return handleImageRoute(request, env, ctx);
+  }
+
+  if (url.pathname.startsWith('/tools/rum/_cors')) {
+    return handleCorsRoute(request, env, ctx);
   }
 
   url.hostname = 'main--helix-website--adobe.aem.live';
