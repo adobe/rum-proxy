@@ -10,7 +10,7 @@
     "deploy": "hedy --build --verbose --deploy --cloudflare-email $HLX_CLOUDFLARE_EMAIL --cloudflare-account-id $HLX_CLOUDFLARE_ACCOUNT --cloudflare-auth $HLX_CLOUDFLARE_AUTH --name ${HLX_CLOUDFLARE_NAME:-rum-proxy-prod}",
     "test": "c8 mocha -i -g 'Post-Deploy' --spec test/*.test.js",
     "pretest": "node tools/spider-list.js",
-    "test-postdeploy": "TEST_INTEGRATION=true node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=junit.xml --test-name-pattern=Post-Deploy",
+    "test-postdeploy": "mocha --spec test/post-deploy.test.js",
     "lint": "eslint .",
     "semantic-release": "semantic-release"
   },
