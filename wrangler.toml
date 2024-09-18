@@ -44,4 +44,4 @@ VERSION = "@@VERSION@@"
 ENVIRONMENT = "prod"
 
 # [secrets]
-# 
+# PSI_KEY
