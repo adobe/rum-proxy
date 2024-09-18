@@ -7,8 +7,8 @@ send_metrics = false
 
 build = { command = "npm install && node build.js" }
 
-kv_namespaces = [
-  { binding = "CONFIGS", id = "bb91e12a65a8462282396f32e63406f1", preview_id = "bb91e12a65a8462282396f32e63406f1" }
+r2_buckets = [
+  { binding = "IMAGE_BUCKET", bucket_name = "rum-bundler-images", preview_bucket_name = "" }
 ]
 
 [vars]
@@ -21,8 +21,8 @@ ENVIRONMENT = "dev"
 [env.ci]
 name = "rum-proxy-ci"
 
-kv_namespaces = [
-  { binding = "CONFIGS", id = "bb91e12a65a8462282396f32e63406f1", preview_id = "bb91e12a65a8462282396f32e63406f1" }
+r2_buckets = [
+  { binding = "IMAGE_BUCKET", bucket_name = "rum-bundler-images", preview_bucket_name = "" }
 ]
 
 [env.ci.vars]
@@ -35,8 +35,8 @@ ENVIRONMENT = "ci"
 [env.production]
 name = "rum-proxy-prod"
 
-kv_namespaces = [
-  { binding = "CONFIGS", id = "bb91e12a65a8462282396f32e63406f1", preview_id = "bb91e12a65a8462282396f32e63406f1" }
+r2_buckets = [
+  { binding = "IMAGE_BUCKET", bucket_name = "rum-bundler-images", preview_bucket_name = "" }
 ]
 
 [env.production.vars]
