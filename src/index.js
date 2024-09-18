@@ -54,7 +54,7 @@ async function isDomainkeyValid(domain, key) {
     const beurl = new URL(`https://rum.fastly-aem.page/domains/${domain}`);
     beurl.searchParams.set('domainkey', key);
 
-    const beresp = fetch(beurl, {
+    const beresp = await fetch(beurl, {
       cf: {
         // keep the auth in cache for 10 minutes
         cacheTtl: 600,
