@@ -3,7 +3,7 @@ on: [push]
 
 env:
   CI_BUILD_NUM: ${{ github.run_id }}
-  CI_BRANCH: ${{ github.ref_name }}
+  CI_BRANCH: ${{ github.head_ref || github.ref_name }}
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
 permissions:
