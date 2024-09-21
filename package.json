@@ -42,7 +42,7 @@
   "devDependencies": {
     "@adobe/eslint-config-helix": "2.0.7",
     "@adobe/fetch": "4.1.8",
-    "@cloudflare/workers-types": "4.20240909.0",
+    "@cloudflare/workers-types": "4.20240919.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
@@ -58,7 +58,7 @@
     "mocha-multi-reporters": "1.5.1",
     "nock": "13.5.5",
     "semantic-release": "24.1.1",
-    "wrangler": "3.78.4"
+    "wrangler": "3.78.7"
   },
   "wsk": {
     "target": [
