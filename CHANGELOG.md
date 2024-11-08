@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/adobe/rum-proxy/compare/v1.2.2...v1.2.3) (2024-11-08)
+
+
+### Bug Fixes
+
+* respond with 401s on invalid domainkey ([#13](https://github.com/adobe/rum-proxy/issues/13)) ([816b2df](https://github.com/adobe/rum-proxy/commit/816b2dfcdb614bde79a245a191ca87f288c45f75))
+
 ## [1.2.2](https://github.com/adobe/rum-proxy/compare/v1.2.1...v1.2.2) (2024-09-18)
 
 
