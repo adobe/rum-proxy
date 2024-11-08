@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+/* global HTMLRewriter */
+
 /**
  * @typedef {{
 *   IMAGE_BUCKET: R2Bucket;
@@ -24,7 +26,7 @@
 function base64ToArrayBuffer(base64) {
   const binaryString = atob(base64);
   const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
+  for (let i = 0; i < binaryString.length; i += 1) {
     bytes[i] = binaryString.charCodeAt(i);
   }
   return bytes.buffer;
@@ -46,7 +48,7 @@ function getPsiUrl(url, env) {
  * @param {string} key the domainkey to validate
  * @returns {Promise<boolean>} true if the domainkey is valid, exception otherwise
  */
-async function isDomainkeyValid(domain, key) {
+async function assertDomainkeyValid(domain, key) {
   if (!domain || !key) {
     throw new Error('missing domain or key');
   }
@@ -62,23 +64,39 @@ async function isDomainkeyValid(domain, key) {
       },
     });
     if (!beresp.ok) {
-      throw new Error('unable to fetch from RUM Bundler API: ' + beresp.statusText);
+      throw new Error(`unable to fetch from RUM Bundler API: ${beresp.statusText}`);
     }
     return true;
   } catch (e) {
-    throw new Error('other error validating domain key: ' + e.message);
+    throw new Error(`other error validating domain key: ${e.message}`);
   }
 }
 
-async function handleCorsRoute(req, env) {
+async function handleCorsRoute(req) {
   const url = new URL(req.url);
   const params = new URLSearchParams(url.search);
-
-  const beurl = new URL(params.get('url'));
   const domainkey = params.get('domainkey');
 
+  let beurl;
   try {
-    await isDomainkeyValid(beurl.hostname, domainkey);
+    beurl = new URL(params.get('url'));
+  } catch {
+    return new Response('', {
+      status: 400,
+      headers: { 'x-error': 'invalid url' },
+    });
+  }
+
+  try {
+    await assertDomainkeyValid(beurl.hostname, domainkey);
+  } catch {
+    return new Response('', {
+      status: 403,
+      headers: { 'x-error': 'invalid domainkey' },
+    });
+  }
+
+  try {
     const beresp = await fetch(beurl, {
       cf: {
         cacheTtl: 3600,
@@ -92,7 +110,7 @@ async function handleCorsRoute(req, env) {
       return new Response('', {
         status: 404,
         headers: {
-          'x-error': 'not found: ' + beresp.statusText,
+          'x-error': `not found: ${beresp.statusText}`,
         },
       });
     }
@@ -106,7 +124,7 @@ async function handleCorsRoute(req, env) {
     // allow CORS
     return new Response(beresp.body, {
       status: 200,
-      headers
+      headers,
     });
   } catch (e) {
     // return 503
@@ -156,7 +174,7 @@ async function doesImageExist(key, env) {
 * @param {string} [contentType]
 * @returns {Promise<void>}
 */
-async function storeImage(env, key, state, data = '', contentType) {
+async function storeImage(env, key, state, data = '', contentType = undefined) {
   await env.IMAGE_BUCKET.put(key, data, {
     customMetadata: {
       state,
@@ -426,6 +444,7 @@ const handleRequest = async (request, env, ctx) => {
     params.sort();
     const domain = params.get('domain') || '';
     const view = (params.get('view') || '').toLowerCase();
+    // eslint-disable-next-line no-nested-ternary
     const viewly = view === 'day'
       ? 'Daily '
       : view
