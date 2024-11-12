@@ -107,6 +107,11 @@ async function handleCorsRoute(req) {
     if (!beresp.ok
       || !(beresp.headers.get('content-type').includes('html')
         || beresp.headers.get('content-type').includes('json')
+        || beresp.headers.get('content-type').includes('webp')
+        || beresp.headers.get('content-type').includes('gif')
+        || beresp.headers.get('content-type').includes('png')
+        || beresp.headers.get('content-type').includes('jpg')
+        || beresp.headers.get('content-type').includes('jpeg')
         || beresp.headers.get('content-type').includes('xml'))) {
       return new Response('', {
         status: 404,
