@@ -103,10 +103,11 @@ async function handleCorsRoute(req) {
         cacheEverything: true,
       },
     });
-    // if not ok, or response is neither HTML or JSON, return 404
+    // if not ok, or response is none of HTML, JSON, or XML return 404
     if (!beresp.ok
       || !(beresp.headers.get('content-type').includes('html')
-        || beresp.headers.get('content-type').includes('json'))) {
+        || beresp.headers.get('content-type').includes('json')
+        || beresp.headers.get('content-type').includes('xml'))) {
       return new Response('', {
         status: 404,
         headers: {
