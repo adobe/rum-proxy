@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/adobe/rum-proxy/compare/v1.2.3...v1.3.0) (2024-11-12)
+
+
+### Features
+
+* allow xml in cors proxy ([#15](https://github.com/adobe/rum-proxy/issues/15)) ([bf553f7](https://github.com/adobe/rum-proxy/commit/bf553f7277cd6873140fb53812a1ddb24086143e))
+
 ## [1.2.3](https://github.com/adobe/rum-proxy/compare/v1.2.2...v1.2.3) (2024-11-08)
 
 
