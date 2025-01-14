@@ -53,7 +53,7 @@ async function assertDomainkeyValid(domain, key) {
     throw new Error('missing domain or key');
   }
   try {
-    const beurl = new URL(`https://rum.fastly-aem.page/domains/${domain}`);
+    const beurl = new URL(`https://bundles.aem.page/domains/${domain}`);
     beurl.searchParams.set('domainkey', key);
 
     const beresp = await fetch(beurl, {
