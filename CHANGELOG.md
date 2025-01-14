@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/adobe/rum-proxy/compare/v1.3.0...v1.3.1) (2025-01-14)
+
+
+### Bug Fixes
+
+* update bundles domain ([#28](https://github.com/adobe/rum-proxy/issues/28)) ([325c03f](https://github.com/adobe/rum-proxy/commit/325c03fa8ef09ce0df2825e26d485604aaf7bbc6))
+
 # [1.3.0](https://github.com/adobe/rum-proxy/compare/v1.2.3...v1.3.0) (2024-11-12)
 
 
