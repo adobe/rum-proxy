@@ -40,7 +40,7 @@
     "reporter-options": "configFile=.mocha-multi.json"
   },
   "devDependencies": {
-    "@adobe/eslint-config-helix": "2.0.8",
+    "@adobe/eslint-config-helix": "2.0.9",
     "@adobe/fetch": "4.1.11",
     "@cloudflare/workers-types": "4.20250129.0",
     "@semantic-release/changelog": "6.0.3",
