@@ -42,13 +42,13 @@
   "devDependencies": {
     "@adobe/eslint-config-helix": "2.0.9",
     "@adobe/fetch": "4.2.0",
-    "@cloudflare/workers-types": "4.20250321.0",
+    "@cloudflare/workers-types": "4.20250327.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/exec": "7.0.3",
     "@semantic-release/git": "10.0.1",
     "c8": "10.1.3",
     "dotenv": "16.4.7",
-    "esbuild": "0.25.1",
+    "esbuild": "0.25.2",
     "eslint": "8.57.1",
     "eslint-plugin-header": "3.1.1",
     "eslint-plugin-import": "2.31.0",
@@ -58,7 +58,7 @@
     "mocha-multi-reporters": "1.5.1",
     "nock": "13.5.6",
     "semantic-release": "24.2.3",
-    "wrangler": "4.4.0"
+    "wrangler": "4.6.0"
   },
   "wsk": {
     "target": [
