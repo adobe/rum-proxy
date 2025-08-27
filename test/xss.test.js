@@ -99,11 +99,10 @@ describe('XSS Prevention Tests', () => {
       const indexContent = readFileSync('./src/index.js', 'utf8');
       assert.ok(indexContent.includes('const checkpoints = escapeHtml(checkpointsRaw);'));
     });
-  });
-});
 
-describe('index tests', () => {
-  it('should pass', () => {
-    assert.ok(true);
+    it('should prevent XSS in view parameter', () => {
+      const indexContent = readFileSync('./src/index.js', 'utf8');
+      assert.ok(indexContent.includes('const viewly = escapeHtml(viewlyRaw);'));
+    });
   });
 });

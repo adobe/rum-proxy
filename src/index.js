@@ -43,6 +43,23 @@ function getPsiUrl(url, env) {
 }
 
 /**
+ * Escapes HTML characters to prevent XSS attacks
+ * @param {string} text the text to escape
+ * @returns {string} the escaped text safe for HTML context
+ */
+function escapeHtml(text) {
+  if (!text) return '';
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  };
+  return String(text).replace(/[&<>"']/g, (char) => map[char]);
+}
+
+/**
  * Validates a domainkey against the RUM Bundler API
  * @param {string} domain the domain, e.g. "www.example.com"
  * @param {string} key the domainkey to validate
@@ -448,16 +465,20 @@ const handleRequest = async (request, env, ctx) => {
     const text = await resp.text();
     const params = new URLSearchParams(url.search);
     params.sort();
-    const domain = params.get('domain') || '';
+    const domainRaw = params.get('domain') || '';
+    const domain = escapeHtml(domainRaw);
     const view = (params.get('view') || '').toLowerCase();
     // eslint-disable-next-line no-nested-ternary
-    const viewly = view === 'day'
+    const viewlyRaw = view === 'day'
       ? 'Daily '
       : view
         ? `${view[0].toUpperCase()}${view.substring(1)}ly `
         : '';
-    const filter = params.get('filter');
-    const checkpoints = params.getAll('checkpoint').join(',');
+    const viewly = escapeHtml(viewlyRaw);
+    const filterRaw = params.get('filter');
+    const filter = escapeHtml(filterRaw);
+    const checkpointsRaw = params.getAll('checkpoint').join(',');
+    const checkpoints = escapeHtml(checkpointsRaw);
     const detailArr = [
       filter || undefined,
       checkpoints || undefined,
