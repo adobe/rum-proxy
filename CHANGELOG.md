@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/adobe/rum-proxy/compare/v1.3.1...v1.3.2) (2025-08-27)
+
+
+### Bug Fixes
+
+* **security:** prevent XSS by escaping HTML in Open Graph meta tags ([07a52f5](https://github.com/adobe/rum-proxy/commit/07a52f51bb6aa8c70ea06b0d9592958be70c5061))
+
 ## [1.3.1](https://github.com/adobe/rum-proxy/compare/v1.3.0...v1.3.1) (2025-01-14)
 
 
