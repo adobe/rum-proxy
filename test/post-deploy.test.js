@@ -264,6 +264,40 @@ describe('Post-Deploy Tests', () => {
     });
   });
 
+  // On the worker's own hostname (*.workers.dev) the aem.live site must not be
+  // served; only /tools/rum/ is handled by the worker. On www.aem.live, these
+  // paths are served by the aem.live origin directly, not by this worker.
+  (ENVIRONMENT === 'production' ? describe.skip : describe)('No site proxy outside /tools/rum/', () => {
+    it('redirects /docs/ to www.aem.live instead of serving the site', async () => {
+      const response = await fetch(`https://${TEST_DOMAIN}/docs/?x=1`, { redirect: 'manual' });
+      assert.strictEqual(response.status, 301, 'Should return 301');
+      assert.strictEqual(response.headers.get('location'), 'https://www.aem.live/docs/?x=1');
+      const body = await response.text();
+      assert.ok(!body.includes('<html'), 'Should not contain an HTML page');
+    });
+
+    it('does not serve the aem.live home page on /', async () => {
+      const response = await fetch(`https://${TEST_DOMAIN}/`, { redirect: 'manual' });
+      // 301 from the worker, or 403 if Cloudflare's phishing interstitial
+      // still answers the root URL before the worker runs.
+      assert.ok(
+        [301, 403].includes(response.status),
+        `Should return 301 or 403, got ${response.status}`,
+      );
+      if (response.status === 301) {
+        assert.strictEqual(response.headers.get('location'), 'https://www.aem.live/');
+      }
+      const body = await response.text();
+      assert.ok(!body.includes('Adobe Experience Manager'), 'Should not serve the aem.live page');
+    });
+
+    it('still serves /tools/rum/_cors from the worker', async () => {
+      const response = await fetch(`https://${TEST_DOMAIN}/tools/rum/_cors`, { redirect: 'manual' });
+      assert.strictEqual(response.status, 400);
+      assert.strictEqual(response.headers.get('x-error'), 'invalid url');
+    });
+  });
+
   // Keep the original simple test for backwards compatibility
   it('passes', async () => {
     assert.ok(true);
