@@ -431,6 +431,18 @@ async function handleImageRoute(req, env, ctx) {
 }
 
 /**
+ * Only paths under this prefix are served by the worker. www.aem.live's CDN
+ * routes exactly this (case-sensitive) prefix to the worker; everything else
+ * on www.aem.live is served by the aem.live origin directly.
+ */
+const RUM_PREFIX = '/tools/rum/';
+
+/**
+ * Canonical public origin of the site the worker fronts.
+ */
+const CANONICAL_ORIGIN = 'https://www.aem.live';
+
+/**
 * Handle request
 * @param {Request} request
 * @param {Env} env
@@ -439,6 +451,19 @@ async function handleImageRoute(req, env, ctx) {
 */
 const handleRequest = async (request, env, ctx) => {
   const url = new URL(request.url);
+
+  // Do not serve a copy of the aem.live site on the worker's own hostnames
+  // (e.g. *.workers.dev), which gets flagged as phishing. Anything outside
+  // /tools/rum/ is redirected to the canonical site instead of proxied.
+  if (!url.pathname.startsWith(RUM_PREFIX)) {
+    return new Response('', {
+      status: 301,
+      headers: {
+        location: `${CANONICAL_ORIGIN}${url.pathname}${url.search}`,
+        'cache-control': 'public, max-age=3600',
+      },
+    });
+  }
 
   if (url.pathname.startsWith('/tools/rum/_ogimage')) {
     return handleImageRoute(request, env, ctx);
